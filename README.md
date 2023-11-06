@@ -1,2 +1,3 @@
-# FinalProjectREI505M
-Final project in RE505M (machine learning and neural network course at the University of Iceland)
+# Final Project - REI505M
+
+Final project in REI505M, Machine Learning course at the University of Iceland. 
