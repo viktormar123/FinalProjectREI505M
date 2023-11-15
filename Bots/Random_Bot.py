@@ -1,10 +1,10 @@
 import random
 
-class RandomBotClass:
+class RandomBot:
     def __init__(self):
         """
         Initialize the Random Bot with a reference to the Connect4 game.
-        :param game: Instance of Connect4GameClass.
+        :param game: Instance of Connect4_Game.
         """
 
     def choose_action(self, possible_actions, env=None):
