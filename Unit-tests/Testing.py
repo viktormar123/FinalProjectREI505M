@@ -1,7 +1,7 @@
 import os
 
 if __name__ == '__main__':
-    Connect4Game = 'Running/Objects/Tests/GameClass/Connect4Game_test'
+    Connect4Game = 'Connect-4_Game_test'
     Connect4Win = "Running/Objects/Tests/GameClass/game_win_test.py"
     Connect4Draw = "Running/Objects/Tests/GameClass/game_draw_test.py"
     QLearningAgent = 'Running/Objects/Classes/QLearningAgentClass.py'
