@@ -5,7 +5,7 @@ import numpy as np
 
 # Add the directory above Tests to the sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from Classes.Connect4Game import Connect4GameClass
+from Classes.Connect4Game import Connect4_Game
 
 def test_initialization():
     game = Connect4GameClass()
