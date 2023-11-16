@@ -1,6 +1,6 @@
 import numpy as np
 
-class Connect4GameClass:
+class Connect4_Game:
     def __init__(self, rows=4, columns=5, in_a_row=4):
         self.rows = rows
         self.columns = columns

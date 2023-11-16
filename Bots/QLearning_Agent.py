@@ -3,8 +3,8 @@ import random
 import pickle
 import os
 
-class QLearningAgentClass:
-    def __init__(self, action_space, learning_rate=0.1, discount_factor=0.9, epsilon=1.0, epsilon_decay=0.9995, min_epsilon=0.01, q_table_name = "q_table.pkl"):
+class QLearning_Agent:
+    def __init__(self, action_space = 6, learning_rate=0.1, discount_factor=0.9, epsilon=1.0, epsilon_decay=0.9995, min_epsilon=0.01, q_table_name = "q_table.pkl"):
         self.action_space = action_space  # Number of possible actions
         print(action_space)
         self.learning_rate = learning_rate
@@ -55,7 +55,6 @@ class QLearningAgentClass:
         new_value = round(old_value + self.learning_rate * (reward + self.discount_factor * next_max - old_value), 4)
 
         self.q_table[(state_key, action)] = new_value
-      
         # Update the Q value for the flipped state (2x faster updateing):
         self.q_table[(self.flip(state_key), self.action_space-action)] = new_value
 
@@ -73,8 +72,11 @@ class QLearningAgentClass:
         file_path = os.path.join(full_path, q_table_name)
         with open(file_path, 'wb') as f:
             pickle.dump(self.q_table, f)
+            
+    def load_q_table(self, q_table_name):
+        self.q_table = q_table_name
 
-    def load_q_table(self, file_path):
+    def load_q_table_from_file(self, file_path):
         if os.path.exists(file_path):
             with open(file_path, 'rb') as f:
                 self.q_table = pickle.load(f)

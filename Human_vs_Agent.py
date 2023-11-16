@@ -1,4 +1,6 @@
-def human_vs_agent_game(connect4, agent):
+from Connect4_Game import Connect4_Game
+
+def Human_vs_Agent(connect4, agent):
     connect4.reset()
     game_over = False
     turn = 1  # Human starts as Player 1
@@ -42,5 +44,5 @@ def human_vs_agent_game(connect4, agent):
         if not game_over:
             turn *= -1
 if __name__ == "__main__":
-    connect4_game = Connect4Game(rows=4, columns=5, in_a_row=4)
-    human_vs_agent_game(connect4_game, agent_load)
+    connect4_game = Connect4_Game(rows=4, columns=5, in_a_row=4)
+    Human_vs_Agent(connect4_game, agent_load) #agent_load not defined?

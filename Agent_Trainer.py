@@ -1,14 +1,14 @@
-from Objects.Classes.Connect4Game import Connect4GameClass
-from Objects.Classes.QLearningAgent import QLearningAgentClass
+from Connect4_Game import Connect4_Game
+from Bots.QLearning_Agent import QLearning_Agent
 import matplotlib.pyplot as plt
 
-class Connect4TrainerClass:
+class Agent_Trainer:
     def __init__(self, opponent=None, num_episodes=500, q_table_path= "Q_tables", starting_policy="alternate", espilon_decay=None, min_epsilon=None, q_table_name = "q_table.pkl"):
         self.num_episodes = num_episodes
         self.q_table_path = q_table_path
         # Initialize the Q-learning agent
-        self.agent = QLearningAgentClass(
-            action_space=Connect4GameClass().columns,
+        self.agent = QLearning_Agent(
+            action_space=Connect4_Game().columns,
             learning_rate=0.1,
             discount_factor=0.9,
             epsilon=1.0,
@@ -24,7 +24,7 @@ class Connect4TrainerClass:
 
     def train(self):
         # Initialize the Connect4 environment
-        connect4_env = Connect4GameClass(rows=4, columns=5, in_a_row=4)
+        connect4_env = Connect4_Game(rows=4, columns=5, in_a_row=4)
 
         Q_size = []
         for episode in range(self.num_episodes):
@@ -67,9 +67,5 @@ class Connect4TrainerClass:
         self.agent.save_q_table(self.q_table_path, q_table_name=self.agent.q_table_name)
         return Q_size
         # Plotting the Q-table size
-        
-
-
-
 
     

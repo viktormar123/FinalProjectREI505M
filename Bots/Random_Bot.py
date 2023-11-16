@@ -1,6 +1,6 @@
 import random
 
-class RandomBot:
+class Random_Bot:
     def __init__(self):
         """
         Initialize the Random Bot with a reference to the Connect4 game.

@@ -1,6 +1,6 @@
 import random
 
-class GreedyBotClass:
+class Greedy_Bot:
     def __init__(self):
         """
         Initialize the Greedy Bot.

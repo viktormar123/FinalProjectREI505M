@@ -1,5 +1,5 @@
 import numpy as np
-def eval_agent(agent, opponent, env, games=10):
+def Evaluate_Agent(agent, opponent, env, games=10):
     results = {'win': 0, 'loss': 0, 'draw': 0}
     for _ in range(games):
         state = env.reset()
@@ -27,8 +27,7 @@ def eval_agent(agent, opponent, env, games=10):
                 possible_actions = env.possible_actions()
                 opponents_action = opponent.choose_action(possible_actions, env)
                 state, reward, done = env.step(opponents_action)
-            # In Connect4, if it's a win for the random player, it's a loss for the agent
-           
+            # In Connect4, if it's a win for the random player, it's a loss for the agent    
             if done:
                 print("Opponentt", env.turn)
                 if env.check_winner(3 - env.turn): # Agent wins

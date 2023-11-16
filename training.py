@@ -1,27 +1,23 @@
-from Objects.Classes.Connect4Game import Connect4GameClass
-from Objects.Classes.Connect4Trainer import Connect4TrainerClass
-from Objects.Classes.Bots.RandomBot import RandomBotClass
+from Connect4_Game import Connect4_Game
+from Agent_Trainer import Agent_Trainer
+from Evaluate_Agent import Evaluate_Agent
+
+from Bots.QLearning_Agent import QLearning_Agent
+from Bots.Random_Bot import Random_Bot
+from Bots.Greedy_Bot import Greedy_Bot
+
 import os
 import pickle
-
-# Evaluators
-from Objects.Functions.evaluate_agent import eval_agent
-from Objects.Functions.evaluate_model_vs_random import evaluate_agent_vs_random
-from Objects.Classes.Bots.RandomBot import RandomBotClass
-from Objects.Classes.Bots.GreedyBot import GreedyBotClass
 import matplotlib.pyplot as plt
 import time
 import sys
-
-# Agent
-from Objects.Classes.Agent import AgentClass
 
 if __name__ == "__main__":
     #To run:
     train, eval, print_q = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
     start_time = time.time()
     if train == 1:
-        Trainer = Connect4TrainerClass(opponent=None, num_episodes=500000, espilon_decay=0.999996, min_epsilon=0.05, q_table_name="mvsm_500k.pkl")
+        Trainer = Agent_Trainer(opponent=None, num_episodes=500000, espilon_decay=0.999996, min_epsilon=0.05, q_table_name="mvsm_500k.pkl")
         Q_size = Trainer.train()
         plt.plot(Q_size)
         plt.show(block=False)
@@ -35,11 +31,12 @@ if __name__ == "__main__":
         for q_table_path in q_table_path_list:
             with open(q_table_path, 'rb') as f:
                 q_table = pickle.load(f)
-                agent = AgentClass(q_table)
-                eval_agent(agent, RandomBotClass(), Connect4GameClass())
-                eval_agent(agent, GreedyBotClass(), Connect4GameClass())  
-                eval_agent(RandomBotClass(), agent, Connect4GameClass())
-                eval_agent(GreedyBotClass(), agent, Connect4GameClass())
+                agent = QLearning_Agent()
+                agent.load_q_table(q_table)
+                Evaluate_Agent(agent, Random_Bot(), Connect4_Game())
+                Evaluate_Agent(agent, Greedy_Bot(), Connect4_Game())  
+                Evaluate_Agent(Random_Bot(), agent, Connect4_Game())
+                Evaluate_Agent(Greedy_Bot(), agent, Connect4_Game())
 
                 #eval_agent(RandomBotClass(), RandomBotClass(), Connect4GameClass())
                 #eval_agent(GreedyBotClass(), RandomBotClass(), Connect4GameClass())
