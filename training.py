@@ -1,5 +1,5 @@
 from Connect4_Game import Connect4_Game
-from Agent_Trainer import Agent_Trainer
+from QAgent_Trainer import QAgent_Trainer
 from Evaluate_Agent import Evaluate_Agent
 
 from Bots.QLearning_Agent import QLearning_Agent
