@@ -8,11 +8,10 @@ def Evaluate_Agent(agent, opponent, env, games=10):
             # Agent's turn
             
             possible_actions = env.possible_actions()
-            action = agent.choose_action(possible_actions, env)
+            action = agent.choose_action(env)
             state, reward, done = env.step(action)
             
             if done:
-                print("Agent", env.turn)
                 if env.check_winner(3 - env.turn): # Agent wins
                     results['win'] += 1
                 elif env.check_winner(env.turn):  # Agent loses
@@ -25,13 +24,11 @@ def Evaluate_Agent(agent, opponent, env, games=10):
             
             if not done:
                 possible_actions = env.possible_actions()
-                opponents_action = opponent.choose_action(possible_actions, env)
+                opponents_action = opponent.choose_action(env)
                 state, reward, done = env.step(opponents_action)
             # In Connect4, if it's a win for the random player, it's a loss for the agent    
-            if done:
-                print("Opponentt", env.turn)
+            if done: 
                 if env.check_winner(3 - env.turn): # Agent wins
-                    print("Agent Loss")
                     results['loss'] += 1
                 elif env.check_winner(env.turn):  # Agent loses
                     results['win'] += 1

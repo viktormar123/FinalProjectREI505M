@@ -18,14 +18,15 @@ if __name__ == "__main__":
     args = [x.lower() for x in sys.argv]
     train, eval, print_q, num_episodes, epsilon, epsilon_decay, min_epsilon, q_table_name = initialize_variables(args)
 
+    print(epsilon, epsilon_decay, min_epsilon, q_table_name)
     #Train model if specified.
     if train:
         start_time = time.time()
         if train == 1:
             Trainer = Agent_Trainer(opponent=None,
                                     num_episodes=num_episodes if num_episodes else 500,
-                                    espilon_decay=0.9,
-                                    min_epsilon=0.05,
+                                    espilon_decay=epsilon_decay if epsilon_decay else 0.99999,
+                                    min_epsilon=min_epsilon if min_epsilon else 0.05,
                                     q_table_name=q_table_name,
                                     connect=3,
                                     )
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     if eval:
         cwd = os.getcwd() + "/Q_tables/"
         #q_table_path_list =   [cwd + "/Q_tables/" + x for x in ["random_200k.pkl", "random_50k.pkl", "random_100k.pkl", "random_30k.pkl", "random_10k.pkl"]]
-        q_table_path_list = [cwd + "mvsm_1Mk.pkl"]
+        q_table_path_list = [cwd + "q_table.pkl"]
         if eval == 1:   
             for q_table_path in q_table_path_list:
                 with open(q_table_path, 'rb') as f:
