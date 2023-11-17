@@ -4,12 +4,14 @@ import matplotlib.pyplot as plt
 
 class Agent_Trainer:
     def __init__(self, 
-                opponent=None,
-                num_episodes=500, q_table_path= "Q_tables",
-                starting_policy="alternate",
-                espilon_decay=None, min_epsilon=None,
-                q_table_name = "q_table.pkl",
-                connect=4):
+                opponent: object=None,
+                num_episodes: int=500,
+                q_table_path: str= "Q_tables",
+                espilon_decay: float=None,
+                min_epsilon: float=None,
+                q_table_name:str = "q_table.pkl",
+                connect: int=4,
+                starting_policy: bool= True):
         self.num_episodes = num_episodes
         self.q_table_path = q_table_path
         # Initialize the Q-learning agent
@@ -23,10 +25,7 @@ class Agent_Trainer:
             q_table_name = q_table_name
         )
         self.opponent = opponent() if opponent else self.agent
-        # Starting policy
-        self.starting_policy = starting_policy  # Added parameter for starting policy
-        self.agent_starts = starting_policy != 'never_start'  # Determine if agent starts in the first game
-
+        self.starting_policy = starting_policy if starting_policy else False
 
     def train(self):
         # Initialize the Connect4 environment
@@ -36,30 +35,24 @@ class Agent_Trainer:
         for episode in range(self.num_episodes):
             current_state = connect4_env.reset()
             done = False
-
-            # New logic for handling who starts the game
-            if self.starting_policy == 'alternate':
-                self.agent_starts = not self.agent_starts
-            elif self.starting_policy == 'never_start':
-                self.agent_starts = False  # Ensure agent never starts
             
             # If opponent starts, make the first move for the opponent
-            if not self.agent_starts and self.opponent:
-                current_state, _ = self.opponent.play(connect4_env, current_state, False)
+            if not self.starting_policy and self.opponent:
+                connect4_env, current_state, done = self.opponent.play(connect4_env, current_state, False)
 
             while not done:
-                possible_actions = connect4_env.possible_actions()
-                action = self.agent.choose_action(current_state, possible_actions)
+                # Get the action from the agent
+                action = self.agent.choose_action(connect4_env)
 
                 # Apply the action to the environment
                 next_state, reward, done = connect4_env.step(action)
 
                 # If there is an opponent, let the opponent play here
                 if self.opponent:
-                    next_state, done = self.opponent.play(connect4_env, next_state, done)
+                    next_state, done = self.opponent.play(connect4_env, done)
 
                 # Agent learns from the action
-                self.agent.update_q_table(current_state, action, reward, next_state, done, possible_actions)
+                self.agent.update_q_table(connect4_env, action, reward, next_state, done)
                 current_state = next_state
 
             # Progress tracking

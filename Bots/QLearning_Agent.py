@@ -32,7 +32,9 @@ class QLearning_Agent:
 
             return flipped_state
 
-    def choose_action(self, state, possible_actions):
+    def choose_action(self, env: object) -> int:
+        state = env.board
+        possible_actions = env.possible_actions()
         if random.uniform(0, 1) < self.epsilon:
             return random.choice(possible_actions)
         else:
@@ -42,7 +44,9 @@ class QLearning_Agent:
             actions_with_max_q = [action for action, q in q_values.items() if q == max_q_value]
             return random.choice(actions_with_max_q)
 
-    def update_q_table(self, state, action, reward, next_state, done, possible_actions):
+    def update_q_table(self, env: object, action: int, reward: float, next_state: list, done: bool) -> None:
+        state = env.board
+        possible_actions = env.possible_actions()
         state_key = self.get_state_key(state)
         next_state_key = self.get_state_key(next_state)
 
@@ -84,10 +88,11 @@ class QLearning_Agent:
         else:
             print(f"No Q-table found at {file_path}, starting fresh.")
     
-    def play(self, env, state, done):
+    def play(self, env: object, done: bool) -> (list, bool):
+        state = env.board
         if not done:
             possible_actions = env.possible_actions()
-            action = self.choose_action(state, possible_actions)
+            action = self.choose_action(env)
             next_state, reward, done = env.step(action)
             return next_state, done
         else:

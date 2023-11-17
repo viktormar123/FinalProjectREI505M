@@ -7,22 +7,21 @@ class Random_Bot:
         :param game: Instance of Connect4_Game.
         """
 
-    def choose_action(self, possible_actions, env=None):
+    def choose_action(self, env: object) -> list:
         """
         Choose a random valid action (column) from the Connect4 game.
         :return: A random valid column number.
         """
-        return random.choice(possible_actions)
+        return random.choice(env.possible_actions())
 
-    def play(self, game_env, state, done=False, training=True):
+    def play(self, env, state, done=False, training=True):
         """
         Executes a turn for the Random Bot.
         """
         if done:
-            return state, done
-        possible_actions = game_env.possible_actions()
-        action = self.choose_action(possible_actions)
-        state, reward, done = game_env.step(action)
-        return state, done
+            return env, state, done
+        action = self.choose_action(env)
+        state, reward, done = env.step(action)
+        return env, state, done
     
     
