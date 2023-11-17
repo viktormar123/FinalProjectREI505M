@@ -14,10 +14,10 @@ class LinearApprox_Agent:
 
     def num_features(self):
         # Number of features
-        return 8  # Adjust as needed
+        return 4  # Adjust as needed
 
     def extract_features(self, state):
-        features = np.zeros(8)
+        features = np.zeros(4)
         # Assuming player's token is 1, and opponent's is 2.
         player_token = 1
         opponent_token = 2
@@ -30,15 +30,15 @@ class LinearApprox_Agent:
         features[2] = self.game.count_sequences(2, player_token)
         features[3] = self.game.count_sequences(2, opponent_token)
 
-        # Feature 7: Central column count for the player
-        central_column_index = self.game.columns // 2
-        features[4] = sum(1 for row in state if row[central_column_index] == player_token)
+        # # Feature 7: Central column count for the player
+        # central_column_index = self.game.columns // 2
+        # features[4] = sum(1 for row in state if row[central_column_index] == player_token)
 
-        # Feature 8: Height preference - Reward for pieces placed higher on the board
-        for row in range(self.game.rows):
-            for col in range(self.game.columns):
-                if state[row][col] == player_token:
-                    features[5] += self.game.rows - row
+        # # Feature 8: Height preference - Reward for pieces placed higher on the board
+        # for row in range(self.game.rows):
+        #     for col in range(self.game.columns):
+        #         if state[row][col] == player_token:
+        #             features[5] += self.game.rows - row
 
         return features
 
