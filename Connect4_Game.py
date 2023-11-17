@@ -89,29 +89,29 @@ class Connect4_Game:
         reward = 0
         opponent = 3 - player
     
-        # Reward for potential '3 in a row' sequences that can lead to a win
-        reward += self.count_sequences(self.in_a_row - 1, player) * 0.5
+        # # Reward for potential '3 in a row' sequences that can lead to a win
+        # reward += self.count_sequences(self.in_a_row - 1, player) * 0.5
         
-        # Penalize '3 in a row' for the opponent to avoid them winning in the next move
-        reward -= self.count_sequences(self.in_a_row - 1, opponent) * 0.5
+        # # Penalize '3 in a row' for the opponent to avoid them winning in the next move
+        # reward -= self.count_sequences(self.in_a_row - 1, opponent) * 0.5
 
-        # Reward for potential '2 in a row' sequences that can lead to a '3 in a row'
-        reward += self.count_sequences(self.in_a_row - 2, player) * 0.1
+        # # Reward for potential '2 in a row' sequences that can lead to a '3 in a row'
+        # reward += self.count_sequences(self.in_a_row - 2, player) * 0.1
     
-        # Penalize '2 in a row' for the opponent to avoid them getting a '3 in a row'
-        reward -= self.count_sequences(self.in_a_row - 2, opponent) * 0.1
+        # # Penalize '2 in a row' for the opponent to avoid them getting a '3 in a row'
+        # reward -= self.count_sequences(self.in_a_row - 2, opponent) * 0.1
 
-        # Central column preference
-        central_column_index = self.columns // 2
-        central_column_count = sum(1 for row in self.board if row[central_column_index] == self.turn)
-        reward += central_column_count * 0.05
+        # # Central column preference
+        # central_column_index = self.columns // 2
+        # central_column_count = sum(1 for row in self.board if row[central_column_index] == self.turn)
+        # reward += central_column_count * 0.05
 
-        # Height preference - assuming higher rows are indexed with smaller numbers
-        for row in range(self.rows):
-            for col in range(self.columns):
-                if self.board[row][col] == self.turn:
-                    # Reward higher pieces more
-                    reward += (self.rows - row) * 0.01
+        # # Height preference - assuming higher rows are indexed with smaller numbers
+        # for row in range(self.rows):
+        #     for col in range(self.columns):
+        #         if self.board[row][col] == self.turn:
+        #             # Reward higher pieces more
+        #             reward += (self.rows - row) * 0.01
 
         # Additional shaping can be added here, such as for creating forks,
         # blocking opponent's forks, etc.
