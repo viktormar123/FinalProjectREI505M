@@ -40,7 +40,7 @@ if __name__ == "__main__":
     if eval:
         cwd = os.getcwd() + "/Q_tables/"
         #q_table_path_list =   [cwd + "/Q_tables/" + x for x in ["random_200k.pkl", "random_50k.pkl", "random_100k.pkl", "random_30k.pkl", "random_10k.pkl"]]
-        q_table_path_list = [cwd + "q_table.pkl"]
+        q_table_path_list = [cwd + "mvsm_50k.pkl"]
         if eval == 1:   
             for q_table_path in q_table_path_list:
                 with open(q_table_path, 'rb') as f:
