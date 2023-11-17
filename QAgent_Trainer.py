@@ -2,7 +2,7 @@ from Connect4_Game import Connect4_Game
 from Bots.QLearning_Agent import QLearning_Agent
 import matplotlib.pyplot as plt
 
-class Agent_Trainer:
+class QAgent_Trainer:
     def __init__(self, 
                 opponent: object=None,
                 num_episodes: int=500,
