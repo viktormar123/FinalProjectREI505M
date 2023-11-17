@@ -17,11 +17,30 @@ class LinearApprox_Agent:
         return 8  # Adjust as needed
 
     def extract_features(self, state):
-        # Extract features based on the state only
-        features = []
-        # Add your feature extraction logic here
-        # ...
-        return np.array(features)
+        features = np.zeros(8)
+        # Assuming player's token is 1, and opponent's is 2.
+        player_token = 1
+        opponent_token = 2
+
+        # Feature 1-4: Count open '3 in a row' for the player and opponent
+        features[0] = self.game.count_sequences(3, player_token)
+        features[1] = self.game.count_sequences(3, opponent_token)
+
+        # Feature 5-6: Count '2 in a row' for the player and opponent
+        features[2] = self.game.count_sequences(2, player_token)
+        features[3] = self.game.count_sequences(2, opponent_token)
+
+        # Feature 7: Central column count for the player
+        central_column_index = self.game.columns // 2
+        features[4] = sum(1 for row in state if row[central_column_index] == player_token)
+
+        # Feature 8: Height preference - Reward for pieces placed higher on the board
+        for row in range(self.game.rows):
+            for col in range(self.game.columns):
+                if state[row][col] == player_token:
+                    features[5] += self.game.rows - row
+
+        return features
 
     def choose_action(self, state, possible_actions):
         if random.uniform(0, 1) < self.epsilon:
