@@ -24,7 +24,7 @@ if __name__ == "__main__":
     if train:
         start_time = time.time()
         if train == 1:
-            Trainer = Agent_QTrainer(opponent=None,
+            Trainer = QAgent_Trainer(opponent=None,
                                     num_episodes=num_episodes if num_episodes else 500,
                                     espilon_decay=epsilon_decay if epsilon_decay else 0.99999,
                                     min_epsilon=min_epsilon if min_epsilon else 0.05,
