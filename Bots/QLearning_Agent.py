@@ -6,7 +6,6 @@ import os
 class QLearning_Agent:
     def __init__(self, action_space = 6, learning_rate=0.1, discount_factor=0.9, epsilon=1.0, epsilon_decay=0.9995, min_epsilon=0.01, q_table_name = "q_table.pkl"):
         self.action_space = action_space  # Number of possible actions
-        print(action_space)
         self.learning_rate = learning_rate
         self.discount_factor = discount_factor
         self.epsilon = epsilon
@@ -70,6 +69,7 @@ class QLearning_Agent:
         # Combine them
         full_path = os.path.join(current_working_directory, relative_path)
         file_path = os.path.join(full_path, q_table_name)
+        print(file_path)
         with open(file_path, 'wb') as f:
             pickle.dump(self.q_table, f)
             

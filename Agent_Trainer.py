@@ -3,12 +3,18 @@ from Bots.QLearning_Agent import QLearning_Agent
 import matplotlib.pyplot as plt
 
 class Agent_Trainer:
-    def __init__(self, opponent=None, num_episodes=500, q_table_path= "Q_tables", starting_policy="alternate", espilon_decay=None, min_epsilon=None, q_table_name = "q_table.pkl"):
+    def __init__(self, 
+                opponent=None,
+                num_episodes=500, q_table_path= "Q_tables",
+                starting_policy="alternate",
+                espilon_decay=None, min_epsilon=None,
+                q_table_name = "q_table.pkl",
+                connect=4):
         self.num_episodes = num_episodes
         self.q_table_path = q_table_path
         # Initialize the Q-learning agent
         self.agent = QLearning_Agent(
-            action_space=Connect4_Game().columns,
+            action_space=Connect4_Game(rows=connect, columns=connect + 1).columns,
             learning_rate=0.1,
             discount_factor=0.9,
             epsilon=1.0,
