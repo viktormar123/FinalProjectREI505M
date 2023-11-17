@@ -46,6 +46,7 @@ class LinearApprox_Agent:
         if random.uniform(0, 1) < self.epsilon:
             return random.choice(possible_actions)
         else:
+            print(possible_actions)
             q_values = [self.get_q_value(state, action) for action in possible_actions]
             max_q_value = max(q_values)
             best_actions = [action for action, q in zip(possible_actions, q_values) if q == max_q_value]

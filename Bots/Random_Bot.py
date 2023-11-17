@@ -22,6 +22,6 @@ class Random_Bot:
             return env, state, done
         action = self.choose_action(env)
         state, reward, done = env.step(action)
-        return env, state, done
+        return state, done
     
     

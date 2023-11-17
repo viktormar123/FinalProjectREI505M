@@ -1,6 +1,7 @@
 from Connect4_Game import Connect4_Game
 from QAgent_Trainer import QAgent_Trainer
 from Evaluate_Agent import Evaluate_Agent
+from ApproxAgent_Trainer import ApproxAgent_Trainer
 
 from Bots.QLearning_Agent import QLearning_Agent
 from Bots.Random_Bot import Random_Bot
@@ -24,12 +25,18 @@ if __name__ == "__main__":
     if train:
         start_time = time.time()
         if train == 1:
-            Trainer = QAgent_Trainer(opponent=None,
+            # Trainer = QAgent_Trainer(opponent=None,
+            #                         num_episodes=num_episodes if num_episodes else 500,
+            #                         epsilon_decay=epsilon_decay if epsilon_decay else 0.99999,
+            #                         min_epsilon=min_epsilon if min_epsilon else 0.05,
+            #                         q_table_name=q_table_name,
+            #                         connect=4,
+            #                         )
+            Trainer = ApproxAgent_Trainer(opponent=Random_Bot,
                                     num_episodes=num_episodes if num_episodes else 500,
-                                    espilon_decay=epsilon_decay if epsilon_decay else 0.99999,
+                                    epsilon_decay=epsilon_decay if epsilon_decay else 0.99999,
                                     min_epsilon=min_epsilon if min_epsilon else 0.05,
-                                    q_table_name=q_table_name,
-                                    connect=3,
+                                    connect=4,
                                     )
             Q_size = Trainer.train()
             plt.plot(Q_size)

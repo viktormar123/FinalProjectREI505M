@@ -7,7 +7,7 @@ class Greedy_Bot:
         """
         pass
 
-    def play(self, env, state, done=False, training=False):
+    def play(self, env, done=False, training=False):
         """
         Executes a turn for the Greedy Bot using the provided game environment and state.
         """

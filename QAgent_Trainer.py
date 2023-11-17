@@ -7,7 +7,7 @@ class QAgent_Trainer:
                 opponent: object=None,
                 num_episodes: int=500,
                 q_table_path: str= "Q_tables",
-                espilon_decay: float=None,
+                epsilon_decay: float=None,
                 min_epsilon: float=None,
                 q_table_name:str = "q_table.pkl",
                 connect: int=4,
@@ -20,7 +20,7 @@ class QAgent_Trainer:
             learning_rate=0.1,
             discount_factor=0.9,
             epsilon=1.0,
-            epsilon_decay=0.99999 if not espilon_decay else espilon_decay,
+            epsilon_decay=0.99999 if not epsilon_decay else epsilon_decay,
             min_epsilon=0.05 if not min_epsilon else min_epsilon,
             q_table_name = q_table_name
         )
@@ -49,7 +49,7 @@ class QAgent_Trainer:
 
                 # If there is an opponent, let the opponent play here
                 if self.opponent:
-                    next_state, done = self.opponent.play(connect4_env, done)
+                    connect4_env, next_state, done = self.opponent.play(connect4_env, done)
 
                 # Agent learns from the action
                 self.agent.update_q_table(connect4_env, action, reward, next_state, done)
