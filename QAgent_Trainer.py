@@ -7,7 +7,7 @@ class QAgent_Trainer:
                 opponent: object=None,
                 num_episodes: int=1,
                 q_table_path: str= "Q_tables",
-                espilon_decay: float=None,
+                epsilon_decay: float=None,
                 min_epsilon: float=None,
                 q_table_name:str = "q_table.pkl",
                 connect: int=4,
@@ -20,7 +20,7 @@ class QAgent_Trainer:
             learning_rate=0.1,
             discount_factor=0.9,
             epsilon=1.0,
-            epsilon_decay=0.995 if not espilon_decay else espilon_decay,
+            epsilon_decay=0.995 if not epsilon_decay else epsilon_decay,
             min_epsilon=0.05 if not min_epsilon else min_epsilon,
             q_table_name = q_table_name
         )
@@ -47,6 +47,13 @@ class QAgent_Trainer:
                 # Apply the action to the environment
                 next_state, reward, done = connect4_env.step(action)
                 
+                # Agent learns from the action
+                self.agent.update_q_table(connect4_env, action, reward, next_state, done)
+                
+                # Check if game is finished
+                if done:
+                    break
+                
                 # If there is an opponent, let the opponent play here
                 if self.opponent:
                     connect4_env.print_board()
@@ -54,8 +61,6 @@ class QAgent_Trainer:
                     connect4_env.print_board()
                     print()
 
-                # Agent learns from the action
-                self.agent.update_q_table(connect4_env, action, reward, next_state, done)
                 current_state = next_state
 
             # Progress tracking
