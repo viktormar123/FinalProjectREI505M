@@ -2,10 +2,10 @@ from Connect4_Game import Connect4_Game
 from Bots.QLearning_Agent import QLearning_Agent
 import matplotlib.pyplot as plt
 
-class Agent_Trainer:
+class QAgent_Trainer:
     def __init__(self, 
                 opponent: object=None,
-                num_episodes: int=500,
+                num_episodes: int=1,
                 q_table_path: str= "Q_tables",
                 espilon_decay: float=None,
                 min_epsilon: float=None,
@@ -20,7 +20,7 @@ class Agent_Trainer:
             learning_rate=0.1,
             discount_factor=0.9,
             epsilon=1.0,
-            epsilon_decay=0.99999 if not espilon_decay else espilon_decay,
+            epsilon_decay=0.995 if not espilon_decay else espilon_decay,
             min_epsilon=0.05 if not min_epsilon else min_epsilon,
             q_table_name = q_table_name
         )
@@ -46,10 +46,13 @@ class Agent_Trainer:
 
                 # Apply the action to the environment
                 next_state, reward, done = connect4_env.step(action)
-
+                
                 # If there is an opponent, let the opponent play here
                 if self.opponent:
+                    connect4_env.print_board()
                     next_state, done = self.opponent.play(connect4_env, done)
+                    connect4_env.print_board()
+                    print()
 
                 # Agent learns from the action
                 self.agent.update_q_table(connect4_env, action, reward, next_state, done)
@@ -67,4 +70,9 @@ class Agent_Trainer:
         return Q_size
         # Plotting the Q-table size
 
-    
+Trainer = QAgent_Trainer()
+Q_table = Trainer.train()
+
+from Evaluate_Agent import Evaluate_Agent
+
+
