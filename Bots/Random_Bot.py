@@ -14,7 +14,7 @@ class Random_Bot:
         """
         return random.choice(env.possible_actions())
 
-    def play(self, env, state, done=False, training=True):
+    def play(self, env, state, done=False):
         """
         Executes a turn for the Random Bot.
         """

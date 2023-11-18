@@ -9,7 +9,7 @@ class ApproxAgent_Trainer:
                 learning_rate: float = 0.1,
                 discount_factor: float = 0.9,
                 epsilon: float = 1.0,
-                epsilon_decay: float = 0.99999,
+                epsilon_decay: float = 0.999,
                 min_epsilon: float = 0.05,
                 connect: int = 4,
                 starting_policy: bool = True):
@@ -36,7 +36,7 @@ class ApproxAgent_Trainer:
             done = False
             
             if not self.starting_policy and self.opponent:
-                current_state, _, done = self.opponent.play(connect4_env, current_state, False)
+                current_state, done = self.opponent.play(connect4_env, current_state, False)
 
             while not done:
                 action = self.agent.choose_action(current_state, connect4_env.possible_actions())

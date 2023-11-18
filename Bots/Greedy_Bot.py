@@ -7,7 +7,7 @@ class Greedy_Bot:
         """
         pass
 
-    def play(self, env, done=False, training=False):
+    def play(self, env, state, done=False):
         """
         Executes a turn for the Greedy Bot using the provided game environment and state.
         """
@@ -15,8 +15,6 @@ class Greedy_Bot:
             return state, done
         action = self.choose_action(env, state, env.turn)
         state, reward, done = env.step(action)
-        return state, done
-
         return state, done
 
 
