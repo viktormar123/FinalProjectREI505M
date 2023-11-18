@@ -88,8 +88,7 @@ class QLearning_Agent:
         else:
             print(f"No Q-table found at {file_path}, starting fresh.")
     
-    def play(self, env: object, done: bool) -> (list, bool):
-        state = env.board
+    def play(self, env: object, state: list, done: bool) -> (list, bool):
         if not done:
             possible_actions = env.possible_actions()
             action = self.choose_action(env)
