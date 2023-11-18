@@ -7,15 +7,22 @@ class Greedy_Bot:
         """
         pass
 
-    def play(self, env, state, done=False):
+    def play(self, env, done=False):
         """
         Executes a turn for the Greedy Bot using the provided game environment and state.
         """
         if done:
-            return state, done
+            return env.board, done
         action = self.choose_action(env, state, env.turn)
-        state, reward, done = env.step(action)
-        return state, done
+        env.place_token(action)  # Update the game state by placing the token
+
+        # Check if the game has reached a terminal state
+        done = env.check_winner(env.turn) or env.check_draw()
+        
+        # Switch turn if the game is not done
+        if not done:
+            env.switch_turn()
+        return env.board, done
 
 
     def choose_action(self, env):

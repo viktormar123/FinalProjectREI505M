@@ -1,10 +1,10 @@
 import numpy as np
 
 class Connect4_Game:
-    def __init__(self, rows=4, columns=5, in_a_row=4):
+    def __init__(self, rows=4, columns=5, connect=4):
         self.rows = rows
         self.columns = columns
-        self.in_a_row = in_a_row
+        self.connect = connect
         self.board = np.zeros((rows, columns), dtype=int)
         self.turn = 1  # Player 1 starts
 
@@ -35,22 +35,23 @@ class Connect4_Game:
         return [col for col in range(self.columns) if self.is_valid_location(col)]
 
     def check_winner(self, player):
+        connect = self.connect
         # Horizontal, vertical, and diagonal checks
-        for c in range(self.columns - 3):
+        for c in range(self.columns + 1 - connect):
             for r in range(self.rows):
-                if np.all(self.board[r, c:c+4] == player):
+                if np.all(self.board[r, c:c+connect] == player):
                     return True
         for c in range(self.columns):
-            for r in range(self.rows - 3):
-                if np.all(self.board[r:r+4, c] == player):
+            for r in range(self.rows + 1 - connect):
+                if np.all(self.board[r:r+connect, c] == player):
                     return True
-        for c in range(self.columns - 3):
-            for r in range(self.rows - 3):
-                if np.all([self.board[r+i, c+i] == player for i in range(4)]):
+        for c in range(self.columns + 1 - connect):
+            for r in range(self.rows + 1 - connect):
+                if np.all([self.board[r+i, c+i] == player for i in range(connect)]):
                     return True
-        for c in range(self.columns - 3):
-            for r in range(3, self.rows):
-                if np.all([self.board[r-i, c+i] == player for i in range(4)]):
+        for c in range(self.columns + 1 - connect):
+            for r in range(1 - connect, self.rows):
+                if np.all([self.board[r-i, c+i] == player for i in range(connect)]):
                     return True
         return False
 
@@ -63,14 +64,14 @@ class Connect4_Game:
             return self.board, -1, False  # Invalid move penalty
 
         # Check for a win or draw
-        if self.check_winner(3 - self.turn):  # Check if the previous player won
+        if self.check_winner(self.turn):  # Check if the previous player won
             reward = 1
             done = True
         elif self.check_draw():
             reward = 0
             done = True
         else:
-            reward = self.calculate_reward(3 - self.turn)  # Intermediate rewards for the current board state
+            reward = self.calculate_reward(self.turn)  # Intermediate rewards for the current board state
             done = False
             self.switch_turn()  # Only switch turns if the game is not done
 
@@ -90,16 +91,16 @@ class Connect4_Game:
         opponent = 3 - player
     
         # # Reward for potential '3 in a row' sequences that can lead to a win
-        # reward += self.count_sequences(self.in_a_row - 1, player) * 0.5
+        # reward += self.count_sequences(self.connect - 1, player) * 0.5
         
         # # Penalize '3 in a row' for the opponent to avoid them winning in the next move
-        # reward -= self.count_sequences(self.in_a_row - 1, opponent) * 0.5
+        # reward -= self.count_sequences(self.connect - 1, opponent) * 0.5
 
         # # Reward for potential '2 in a row' sequences that can lead to a '3 in a row'
-        # reward += self.count_sequences(self.in_a_row - 2, player) * 0.1
+        # reward += self.count_sequences(self.connect - 2, player) * 0.1
     
         # # Penalize '2 in a row' for the opponent to avoid them getting a '3 in a row'
-        # reward -= self.count_sequences(self.in_a_row - 2, opponent) * 0.1
+        # reward -= self.count_sequences(self.connect - 2, opponent) * 0.1
 
         # # Central column preference
         # central_column_index = self.columns // 2

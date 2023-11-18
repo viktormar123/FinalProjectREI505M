@@ -14,14 +14,22 @@ class Random_Bot:
         """
         return random.choice(env.possible_actions())
 
-    def play(self, env, state, done=False):
+    def play(self, env, done=False):
         """
         Executes a turn for the Random Bot.
         """
         if done:
-            return env, state, done
+            return env, env.board, done
         action = self.choose_action(env)
-        state, reward, done = env.step(action)
-        return state, done
+        env.place_token(action)  # Update the game state by placing the token
+
+        # Check if the game has reached a terminal state
+        done = env.check_winner(env.turn) or env.check_draw()
+        
+        # Switch turn if the game is not done
+        if not done:
+            env.switch_turn()
+
+        return env.board, done
     
     

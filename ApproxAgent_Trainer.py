@@ -68,6 +68,8 @@ class ApproxAgent_Trainer:
                 # Apply the action to the environment
                 next_state, reward, done = connect4_env.step(action)
 
+                # If done ?
+
                 # If there is an opponent, let the opponent play here
                 if self.opponent:
                     connect4_env, next_state, done = self.opponent.play(connect4_env, done)
@@ -78,3 +80,4 @@ class ApproxAgent_Trainer:
         # Optionally, you could add code here to save the agent's state or perform additional analysis
 
         print("Training complete.")
+        return self.agent.weights
