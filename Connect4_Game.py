@@ -82,7 +82,7 @@ class Connect4_Game:
         win = self.check_winner(player)  # Pass the player variable
         #draw = self.check_draw(player)
         if win:
-            return 10 if player == 1 else -10 # Win reward for player 1, loss for player 2
+            return 1 if player == 1 else -1 # Win reward for player 1, loss for player 2
         #elif draw:
         #    return 0.5
 
