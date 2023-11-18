@@ -20,7 +20,7 @@ class QAgent_Trainer:
             learning_rate=0.1,
             discount_factor=0.9,
             epsilon=1.0,
-            epsilon_decay=0.995 if not espilon_decay else espilon_decay,
+            epsilon_decay=0.995 if not epsilon_decay else epsilon_decay,
             min_epsilon=0.05 if not min_epsilon else min_epsilon,
             q_table_name = q_table_name
         )
