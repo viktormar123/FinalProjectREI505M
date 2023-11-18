@@ -36,4 +36,4 @@ python Evaluate_Agent.py
 We welcome contributions and feedback. Please submit pull requests for contributions and use the issue tracker for feedback and bug reports.
 
 ## Authors and Acknowledgements
-This project was developed by Björn Thor Stefánsson, Kristján Sölvi Örnólfsson, and Viktor Már Guðmundsson. Special thanks to Steinn Guðmundsson.
+This project was developed by Björn Thor Stefánsson, Kristján Sölvi Örnólfsson, and Viktor Már Guðmundsson. Special thanks to Steinn Guðmundsson our professor at the University of Iceland.
