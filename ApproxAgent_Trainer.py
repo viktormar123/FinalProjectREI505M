@@ -9,7 +9,7 @@ class ApproxAgent_Trainer:
                 learning_rate: float = 0.1,
                 discount_factor: float = 0.9,
                 epsilon: float = 1.0,
-                epsilon_decay: float = 0.999,
+                epsilon_decay: float = 0.9999,
                 min_epsilon: float = 0.05,
                 connect: int = 4,
                 starting_policy: bool = True):
@@ -25,7 +25,7 @@ class ApproxAgent_Trainer:
             min_epsilon=min_epsilon
         )
 
-        self.opponent = opponent() if opponent else self.agent
+        self.opponent = opponent if opponent else self.agent
         self.starting_policy = starting_policy if starting_policy else False
 
     def train(self):
@@ -39,7 +39,7 @@ class ApproxAgent_Trainer:
                 current_state, done = self.opponent.play(connect4_env, current_state, False)
 
             while not done:
-                action = self.agent.choose_action(current_state, connect4_env.possible_actions())
+                action = self.agent.choose_action(connect4_env)
                 next_state, reward, done = connect4_env.step(action)
 
                 if self.opponent:
@@ -51,30 +51,4 @@ class ApproxAgent_Trainer:
             if episode % 1000 == 0:
                 print(f"Episode {episode} complete. Epsilon: {self.agent.epsilon}")
                 
-            
-            Q_size = []
-        for episode in range(self.num_episodes):
-            current_state = connect4_env.reset()
-            done = False
-            
-            # If opponent starts, make the first move for the opponent
-            if not self.starting_policy and self.opponent:
-                connect4_env, current_state, done = self.opponent.play(connect4_env, current_state, False)
-
-            while not done:
-                # Get the action from the agent
-                action = self.agent.choose_action(connect4_env)
-
-                # Apply the action to the environment
-                next_state, reward, done = connect4_env.step(action)
-
-                # If there is an opponent, let the opponent play here
-                if self.opponent:
-                    connect4_env, next_state, done = self.opponent.play(connect4_env, done)
-
-                # Agent learns from the action
-                self.agent.update_q_table(connect4_env, action, reward, next_state, done)
-                current_state = next_state
-        # Optionally, you could add code here to save the agent's state or perform additional analysis
-
-        print("Training complete.")
+        return self.agent.weights

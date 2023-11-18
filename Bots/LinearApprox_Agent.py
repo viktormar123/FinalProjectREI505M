@@ -2,7 +2,7 @@ import numpy as np
 import random
 
 class LinearApprox_Agent:
-    def __init__(self, game, learning_rate=0.1, discount_factor=0.9, epsilon=1.0, epsilon_decay=0.9999, min_epsilon=0.02):
+    def __init__(self, game, learning_rate=0.1, discount_factor=0.9, epsilon=1.0, epsilon_decay=0.99995, min_epsilon=0.02):
         self.game = game
         self.action_space = game.columns
         self.weights = np.zeros((self.num_features(), self.action_space))  # Weights are now a matrix
@@ -40,13 +40,18 @@ class LinearApprox_Agent:
         #         if state[row][col] == player_token:
         #             features[5] += self.game.rows - row
 
+        # Normalize features to a certain range, e.g., [0, 1] or [-1, 1]
+        max_feature_value = features.max() if features.max() != 0 else 1
+        features = features / max_feature_value
+
         return features
 
-    def choose_action(self, state, possible_actions):
+    def choose_action(self, env):
+        state = env.board
+        possible_actions = env.possible_actions()
         if random.uniform(0, 1) < self.epsilon:
             return random.choice(possible_actions)
         else:
-            print(possible_actions)
             q_values = [self.get_q_value(state, action) for action in possible_actions]
             max_q_value = max(q_values)
             best_actions = [action for action, q in zip(possible_actions, q_values) if q == max_q_value]
