@@ -1,11 +1,11 @@
 # Final Project - REI505M
 
-This repository contains our final project for the REI505M Machine Learning course at the University of Iceland. We've developed a reinforcement learning agent designed to master the game of Connect4. Utilizing advanced machine learning techniques, this agent learns optimal strategies through continuous gameplay, refining its approach with each win or loss.
+This repository contains our final project for the REI505M Machine Learning course at the University of Iceland. We've developed a reinforcement learning agent designed to compete at the level of humans at the game of Connect4. Utilizing advanced machine learning techniques, this agent learns optimal strategies through continuous gameplay, refining its approach with each win or loss.
 
 # Key Features:
 
 ## Reinforcement Learning:
-Implements a sophisticated algorithm that adapts and learns from the game environment, enabling the bot to make strategic decisions based on past experiences.
+Implements a sophisticated algorithm that adapts and learns from the game environment, enabling the agent to make strategic decisions based on past experiences.
 
 ## Linear Approximation Agent:
 In addition to the main reinforcement learning agent, we've also designed a linear approximation agent. This agent uses a simpler, linear approach to assess the game board and make decisions, offering an interesting contrast to the more complex main agent.
