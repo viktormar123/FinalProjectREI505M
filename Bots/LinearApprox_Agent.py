@@ -17,7 +17,7 @@ class LinearApprox_Agent:
         return 5  # Adjust as needed
 
     def extract_features(self, state):
-        features = np.zeros(4)
+        features = np.zeros(self.num_features())
         # Assuming player's token is 1, and opponent's is 2.
         player_token = 1
         opponent_token = 2

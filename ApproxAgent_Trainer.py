@@ -29,7 +29,7 @@ class ApproxAgent_Trainer:
         self.starting_policy = starting_policy if starting_policy else False
 
     def train(self):
-        connect4_env = Connect4_Game(rows=4, columns=5, in_a_row=4)
+        connect4_env = Connect4_Game(rows=4, columns=5, connect=4)
 
         for episode in range(self.num_episodes):
             current_state = connect4_env.reset()

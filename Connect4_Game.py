@@ -50,7 +50,7 @@ class Connect4_Game:
                 if np.all([self.board[r+i, c+i] == player for i in range(connect)]):
                     return True
         for c in range(self.columns + 1 - connect):
-            for r in range(1 - connect, self.rows):
+            for r in range(connect - 1, self.rows):
                 if np.all([self.board[r-i, c+i] == player for i in range(connect)]):
                     return True
         return False

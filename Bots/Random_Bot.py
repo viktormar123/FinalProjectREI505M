@@ -19,7 +19,7 @@ class Random_Bot:
         Executes a turn for the Random Bot.
         """
         if done:
-            return env, env.board, done
+            return env.board, done
         action = self.choose_action(env)
         env.place_token(action)  # Update the game state by placing the token
 

@@ -13,7 +13,7 @@ class Greedy_Bot:
         """
         if done:
             return env.board, done
-        action = self.choose_action(env, state, env.turn)
+        action = self.choose_action(env)
         env.place_token(action)  # Update the game state by placing the token
 
         # Check if the game has reached a terminal state

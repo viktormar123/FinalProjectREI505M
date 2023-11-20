@@ -43,6 +43,3 @@ def Human_vs_Agent(connect4, agent):
         # No winner or draw, switch turns
         if not game_over:
             turn *= -1
-if __name__ == "__main__":
-    connect4_game = Connect4_Game(rows=4, columns=5, in_a_row=4)
-    Human_vs_Agent(connect4_game, agent_load) #agent_load not defined?
