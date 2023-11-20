@@ -25,6 +25,7 @@ def Evaluate_Agent(agent, opponent, env, games=10):
                 possible_actions = env.possible_actions()
                 opponents_action = opponent.choose_action(env)
                 state, reward, done = env.step(opponents_action)
+            
             # In Connect4, if it's a win for the random player, it's a loss for the agent    
             if done: 
                 if env.check_winner(2): # Agent wins
