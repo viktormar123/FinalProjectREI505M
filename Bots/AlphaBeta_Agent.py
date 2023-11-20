@@ -2,7 +2,7 @@ import numpy as np
 import random
 
 class AlphaBetaAgent:
-    def __init__(self, depth=4):
+    def __init__(self, depth=1):
         """
         Initialize the AlphaBetaAgent.
         """
@@ -18,10 +18,11 @@ class AlphaBetaAgent:
         state, reward, done = game_env.step(action)
         return state, done
 
-    def choose_action(self, game_env, state):
+    def choose_action(self, game_env):
         """
         Choose an action using the Alpha-Beta pruning algorithm.
         """
+        state = game_env.board
         column, score = self.minimax(game_env, state, self.depth, -np.inf, np.inf, True)
         return column
 
