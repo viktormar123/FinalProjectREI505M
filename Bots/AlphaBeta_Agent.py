@@ -2,7 +2,7 @@ import numpy as np
 import random
 import copy
 
-class AlphaBetaAgent:
+class AlphaBeta_Agent:
     def __init__(self, depth=1):
         """
         Initialize the AlphaBetaAgent.

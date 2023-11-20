@@ -22,4 +22,4 @@ Human_vs_Agent(Connect4_Env, AlphaBeta_Agent())
 
 
 #Evaluate_Agent(Approx_Agent, Random_Bot(), Connect4_Env, 1000)
-Evaluate_Agent(AlphaBetaAgent(), Random_Bot(),Connect4_Env, 100)
+Evaluate_Agent(AlphaBeta_Agent(), Random_Bot(),Connect4_Env, 100)
