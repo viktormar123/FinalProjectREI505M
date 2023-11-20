@@ -23,7 +23,7 @@ def Human_vs_Agent(connect4, agent):
         else:
             # Agent's turn
             valid_actions = [col for col in range(connect4.columns) if connect4.is_valid_location(col)]
-            agent_move = agent.choose_action(connect4.board, valid_actions)
+            agent_move = agent.choose_action(connect4)
             print(f"Agent's move: {agent_move}")
             _, _, game_over = connect4.step(agent_move)
 
