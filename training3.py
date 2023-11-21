@@ -78,7 +78,7 @@ plt.legend()
 plt.show()  
 
 # Save the weights after training
-np.save('ApproxAgent_Weights1.npy', ApproxAgent.weights)
+#np.save('c:\Users\vikki\H�\2. �r\Gervigreind\Lokaverkefni\Github\FinalProjectREI505M\ApproxAgent_Weights1.npy', ApproxAgent.weights)
 
 # Load the weights into a new agent
 # loaded_weights = np.load('approx_agent_weights.npy')
