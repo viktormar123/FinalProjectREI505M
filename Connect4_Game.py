@@ -122,50 +122,96 @@ class Connect4_Game:
     def count_sequences(self, sequence_length, player):
         count = 0
         state = self.board
-        rows = len(state)
-        cols = len(state[0])
-        opponent = 3 - player
+        rows, cols = state.shape
 
-        # Function to check if a position is within the board boundaries
-        def is_within_bounds(row, col):
-            return 0 <= row < rows and 0 <= col < cols
+        def is_within_bounds(r, c):
+            return 0 <= r < rows and 0 <= c < cols
 
-        # Function to check the status of a sequence
-        def check_sequence_status(r, c, dr, dc):
-            sequence_status = 0
-            if all(state[r + i * dr][c + i * dc] == player or state[r + i * dr][c + i * dc] == 0 for i in range(sequence_length)):
-                before = (r - dr, c - dc)
-                after = (r + sequence_length * dr, c + sequence_length * dc)
-                blocked_before = not is_within_bounds(*before) or state[before[0]][before[1]] == opponent
-                blocked_after = not is_within_bounds(*after) or state[after[0]][after[1]] == opponent
+        def check_sequence(r, c, dr, dc):
+            sequence = []
+            for i in range(sequence_length):
+                nr, nc = r + i * dr, c + i * dc
+                if is_within_bounds(nr, nc) and (state[nr, nc] == player or state[nr, nc] == 0):
+                    sequence.append((nr, nc))
+                else:
+                    return []
+            return sequence
 
-                if not blocked_before and not blocked_after:
-                    sequence_status = 2
-                elif blocked_before != blocked_after:
-                    sequence_status = 1
-            return sequence_status
-
-        # Horizontal sequences
+        # Check horizontal, vertical, and both diagonal directions
+        directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
         for r in range(rows):
-            for c in range(cols - sequence_length + 1):
-                count += check_sequence_status(r, c, 0, 1)
-
-        # Vertical sequences
-        for c in range(cols):
-            for r in range(rows - sequence_length + 1):
-                count += check_sequence_status(r, c, 1, 0)
-
-        # Positive diagonal sequences
-        for c in range(cols - sequence_length + 1):
-            for r in range(rows - sequence_length + 1):
-                count += check_sequence_status(r, c, 1, 1)
-
-        # Negative diagonal sequences
-        for c in range(cols - sequence_length + 1):
-            for r in range(sequence_length - 1, rows):
-                count += check_sequence_status(r, c, -1, 1)
+            for c in range(cols):
+                for dr, dc in directions:
+                    sequence = check_sequence(r, c, dr, dc)
+                    if len(sequence) == sequence_length and all(state[seq[0], seq[1]] != 3 - player for seq in sequence):
+                        count += 1
 
         return count
+
+
+    # def count_sequences(self, sequence_length, player):
+    #     count = 0
+    #     state = self.board
+    #     rows, cols = state.shape
+    #     visited = set()
+    #     opponent = 3 - player
+
+    #     # Function to check if a position is within the board boundaries
+    #     def is_within_bounds(r, c):
+    #         return 0 <= r < rows and 0 <= c < cols
+
+    #     # Function to check the status of a sequence
+    #     def check_sequence_status(r, c, dr, dc):
+    #         if (r, c, dr, dc) in visited:
+    #             return 0
+
+    #         if all((state[r + i * dr, c + i * dc] == player or state[r + i * dr, c + i * dc] == 0) for i in range(sequence_length)):
+    #             visited.add((r, c, dr, dc))
+    #             return 1
+    #         return 0
+        
+        
+    #     # def check_sequence_status(r, c, dr, dc):
+    #     #     sequence_status = 0
+    #     #     if all(state[r + i * dr][c + i * dc] == player or state[r + i * dr][c + i * dc] == 0 for i in range(sequence_length)):
+    #     #         before = (r - dr, c - dc)
+    #     #         after = (r + sequence_length * dr, c + sequence_length * dc)
+    #     #         blocked_before = not is_within_bounds(*before) or state[before[0]][before[1]] == opponent
+    #     #         blocked_after = not is_within_bounds(*after) or state[after[0]][after[1]] == opponent
+
+    #     #         if not blocked_before and not blocked_after:
+    #     #             sequence_status = 2
+    #     #         elif blocked_before != blocked_after:
+    #     #             sequence_status = 1
+                    
+    #     #     if sequence_status > 0:
+    #     #         # Print the sequence and its status for debugging
+    #     #         sequence = [(r + i * dr, c + i * dc) for i in range(sequence_length)]
+    #     #         print(f"Sequence at {sequence} with status {sequence_status}")
+                
+    #     #     return sequence_status
+
+    #     # Horizontal sequences
+    #     for r in range(rows):
+    #         for c in range(cols - sequence_length + 1):
+    #             count += check_sequence_status(r, c, 0, 1)
+
+    #     # Vertical sequences
+    #     for c in range(cols):
+    #         for r in range(rows - sequence_length + 1):
+    #             count += check_sequence_status(r, c, 1, 0)
+
+    #     # Positive diagonal sequences
+    #     for c in range(cols - sequence_length + 1):
+    #         for r in range(rows - sequence_length + 1):
+    #             count += check_sequence_status(r, c, 1, 1)
+
+    #     # Negative diagonal sequences
+    #     for c in range(cols - sequence_length + 1):
+    #         for r in range(sequence_length - 1, rows):
+    #             count += check_sequence_status(r, c, -1, 1)
+
+    #     return count
 
     
     def print_board(self):

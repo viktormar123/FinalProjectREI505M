@@ -23,12 +23,12 @@ class LinearApprox_Agent:
         opponent_token = 2
 
         # Feature 1-2: Count open '3 in a row' for the player and opponent
-        features[0] = self.game.count_sequences(3, player_token) / 10
-        features[1] = self.game.count_sequences(3, opponent_token) / 10
+        features[0] = self.game.count_sequences(3, player_token) / 100
+        features[1] = self.game.count_sequences(3, opponent_token) / 100
 
         # Feature 3-4: Count '2 in a row' for the player and opponent
-        features[2] = self.game.count_sequences(2, player_token) / 20
-        features[3] = self.game.count_sequences(2, opponent_token) / 20
+        features[2] = self.game.count_sequences(2, player_token) / 200
+        features[3] = self.game.count_sequences(2, opponent_token) / 200
         
         # Feature 5: Number of free slots in the game
         features[4] = np.sum(state == 0) / (self.game.rows * self.game.columns)
@@ -42,6 +42,12 @@ class LinearApprox_Agent:
         #     for col in range(self.game.columns):
         #         if state[row][col] == player_token:
         #             features[5] += self.game.rows - row
+        
+        # Check for features exceeding 1, which grow exponentially
+        if np.any(features > 1):
+            print(f"Warning: Feature values exceed 1: {features}")
+            # Optional: Clip features to [0, 1] range
+            features = np.clip(features, 0, 1)
 
         return features
 
@@ -52,8 +58,21 @@ class LinearApprox_Agent:
             return random.choice(possible_actions)
         else:
             q_values = [self.get_q_value(state, action) for action in possible_actions]
+            
+            # Check for NaN in Q-values
+            if any(np.isnan(q_values)):
+                print(f"NaN detected in Q-values: {q_values}")
+                # Handle NaN situation, for example by choosing a random action
+                return random.choice(possible_actions)
+            
             max_q_value = max(q_values)
             best_actions = [action for action, q in zip(possible_actions, q_values) if q == max_q_value]
+            
+            # Check if best_actions is empty which should not be the case
+            if not best_actions:
+                print(f"No best actions found, which should not happen. Q-values: {q_values}")
+                return random.choice(possible_actions)
+            
             return random.choice(best_actions)
 
     def get_q_value(self, state, action):
@@ -64,6 +83,9 @@ class LinearApprox_Agent:
         features = self.extract_features(state)
         q_value = self.get_q_value(state, action)
         future_reward = 0 if done else max([self.get_q_value(next_state, a) for a in possible_actions])
+        
+        if np.isnan(future_reward) or np.isnan(q_value):
+            print(f"NaN detected: q_value={q_value}, future_reward={future_reward}")
         target = reward + self.discount_factor * future_reward
         error = target - q_value
         self.weights[:, action] += self.learning_rate * error * features

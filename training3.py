@@ -17,7 +17,7 @@ from Human_vs_Agent import Human_vs_Agent
 
 # Define the parameters for game enviroment and training 
 rows, cols, connect = 4, 5, 4 # Smaller board size, less computation
-alpha = 0.2
+alpha = 0.3 # 0.5 was bad
 epsilon = 0.2 # 20% exploration ~ 2 random moves if played 40 moves
 
 # Define the game environment and ApproxAgent
@@ -28,7 +28,7 @@ ApproxAgent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
 opponent = Random_Bot()
 
 # Parameters for training and evaluation
-num_episodes = 2000
+num_episodes = 5000
 evaluation_interval = 500
 evaluation_games = 100
 
