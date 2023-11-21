@@ -13,7 +13,7 @@ from Bots.AlphaBeta_Agent import AlphaBeta_Agent
 RandomAgent = Random_Bot()
 AlphaBetaAgent = AlphaBeta_Agent(1)
 
-eval_games = 100
+eval_games = 1000
 
 # print(f'Random vs Random on {rows}x{cols} board:')
 # Evaluate_Agent(RandomAgent, RandomAgent, game_env, eval_games) 
