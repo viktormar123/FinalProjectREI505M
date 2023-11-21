@@ -16,8 +16,8 @@ from Evaluate_Agent import Evaluate_Agent
 from Human_vs_Agent import Human_vs_Agent
 
 # Define the parameters for game enviroment and training 
-rows, cols, connect = 4, 5, 4 # Smaller board size, less computation
-alpha = 0.3 # 0.5 was bad
+rows, cols, connect = 6, 7, 4 # Smaller board size, less computation
+alpha = 0.0001 # 0.3 and 0.5 weren't converging 
 epsilon = 0.2 # 20% exploration ~ 2 random moves if played 40 moves
 
 # Define the game environment and ApproxAgent
@@ -25,12 +25,12 @@ game_env = Connect4_Game(rows, cols, connect)
 ApproxAgent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
 
 # Define the opponent, both for training and evaluation
-opponent = Random_Bot()
+opponent = AlphaBeta_Agent(1)
 
 # Parameters for training and evaluation
-num_episodes = 5000
-evaluation_interval = 500
-evaluation_games = 100
+num_episodes = 5000 #  10000
+evaluation_interval = 500 # 1000
+evaluation_games = 100 # 500
 
 win_rates = []
 loss_rates = []
