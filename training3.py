@@ -25,12 +25,12 @@ game_env = Connect4_Game(rows, cols, connect)
 ApproxAgent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
 
 # Define the opponent, both for training and evaluation
-opponent = AlphaBeta_Agent(1)
+opponent = AlphaBeta_Agent(3)
 
 # Parameters for training and evaluation
-num_episodes = 5000 #  10000
-evaluation_interval = 500 # 1000
-evaluation_games = 100 # 500
+num_episodes = 10000 #  10000   20000, 1000, 500
+evaluation_interval = 1000 # 1000
+evaluation_games = 500 # 500
 
 win_rates = []
 loss_rates = []
@@ -76,3 +76,11 @@ plt.ylabel('Rate')
 plt.title(f'ApproxAgent Performance vs {opponent.__class__.__name__} on {rows}x{cols} board in Connect-{game_env.connect}')
 plt.legend()
 plt.show()  
+
+# Save the weights after training
+np.save('ApproxAgent_Weights1.npy', ApproxAgent.weights)
+
+# Load the weights into a new agent
+# loaded_weights = np.load('approx_agent_weights.npy')
+# new_agent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
+# new_agent.weights = loaded_weights
