@@ -91,16 +91,16 @@ class Connect4_Game:
         opponent = 3 - player
     
         # # Reward for potential '3 in a row' sequences that can lead to a win
-        # reward += self.count_sequences(self.connect - 1, player) * 0.5
+        # reward += self.count_sequences(self.connect - 1, player) * 0.2
         
         # # Penalize '3 in a row' for the opponent to avoid them winning in the next move
-        # reward -= self.count_sequences(self.connect - 1, opponent) * 0.5
+        # reward -= self.count_sequences(self.connect - 1, opponent) * 0.2
 
         # # Reward for potential '2 in a row' sequences that can lead to a '3 in a row'
-        # reward += self.count_sequences(self.connect - 2, player) * 0.1
+        # reward += self.count_sequences(self.connect - 2, player) * 0.05
     
         # # Penalize '2 in a row' for the opponent to avoid them getting a '3 in a row'
-        # reward -= self.count_sequences(self.connect - 2, opponent) * 0.1
+        # reward -= self.count_sequences(self.connect - 2, opponent) * 0.05
 
         # # Central column preference
         # central_column_index = self.columns // 2

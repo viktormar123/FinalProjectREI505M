@@ -3,38 +3,42 @@ import numpy as np
 def Evaluate_Agent(agent, opponent, env, games=10):
     results = {'win': 0, 'loss': 0, 'draw': 0}
     for game_num in range(games):
-        state = env.reset()
-        done = False
+        env.reset()
 
-        while not done:
+        while True:
             # Agent's turn
-            possible_actions = env.possible_actions()
             action = agent.choose_action(env)
-            state, reward, done = env.step(action)
-            if done:
-                if env.check_winner(1): # Agent wins
-                    results['win'] += 1
-                elif env.check_winner(2):  # Agent loses
-                    results['loss'] += 1
-                elif env.check_draw(): # Draw
-                    results['draw'] += 1
+            env.place_token(action)
+            if env.check_winner(1): # Agent wins
+                results['win'] += 1
                 break
-
+            elif env.check_winner(2):  # Agent loses
+                results['loss'] += 1
+                print('Something is wrong with Evaluate_Agent, agent loses after placing his own token')
+                break
+            elif env.check_draw(): # Draw
+                results['draw'] += 1
+                break
+            
+            env.switch_turn()
             # Opponent's turn
-            if not done:
-                possible_actions = env.possible_actions()
-                opponents_action = opponent.choose_action(env)
-                state, reward, done = env.step(opponents_action)
+            opponents_action = opponent.choose_action(env)
+            env.place_token(opponents_action)
             
             # In Connect4, if it's a win for the random player, it's a loss for the agent    
-            if done: 
-                if env.check_winner(2): # Agent wins
-                    results['loss'] += 1
-                elif env.check_winner(1):  # Agent loses
-                    results['win'] += 1
-                elif env.check_draw(): # Draw
-                    results['draw'] += 1
+            if env.check_winner(2): # Agent wins
+                results['loss'] += 1
                 break
+            elif env.check_winner(1):  # Agent loses
+                results['win'] += 1
+                print('\nSomething is wrong with Evaluate_Agent, opponent loses after placing his own token')
+                env.print_board()                
+                break
+            elif env.check_draw(): # Draw
+                results['draw'] += 1
+                break
+            
+            env.switch_turn()
 
     win_rate = results['win'] / games
     loss_rate = results['loss'] / games

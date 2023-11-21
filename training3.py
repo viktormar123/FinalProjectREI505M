@@ -25,10 +25,10 @@ game_env = Connect4_Game(rows, cols, connect)
 ApproxAgent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
 
 # Define the opponent, both for training and evaluation
-opponent = AlphaBeta_Agent(3)
+opponent = Random_Bot()
 
 # Parameters for training and evaluation
-num_episodes = 10000 #  10000   20000, 1000, 500
+num_episodes = 5000 #  10000   20000, 1000, 500
 evaluation_interval = 1000 # 1000
 evaluation_games = 500 # 500
 
@@ -84,3 +84,5 @@ plt.show()
 # loaded_weights = np.load('approx_agent_weights.npy')
 # new_agent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
 # new_agent.weights = loaded_weights
+
+Human_vs_Agent(game_env, ApproxAgent, 2)

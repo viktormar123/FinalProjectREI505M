@@ -25,6 +25,7 @@ class AlphaBeta_Agent:
         if not done:
             game_env.switch_turn()
         return game_env.board, done
+    
     def choose_action(self, game_env):
         """
         Choose an action using the Alpha-Beta pruning algorithm.
@@ -50,10 +51,10 @@ class AlphaBeta_Agent:
             value = float('-inf')
             column = random.choice(valid_locations)
             for col in valid_locations:
-                # Simulate the move
-                if game_env.place_token(col):
-                    new_score = self.minimax(game_env, depth - 1, alpha, beta, False)[1]
-                    game_env.undo_move(col)  # Undo the move
+                # Create a copy of the game environment and simulate the move
+                game_env_copy = copy.deepcopy(game_env)
+                if game_env_copy.place_token(col):
+                    new_score = self.minimax(game_env_copy, depth - 1, alpha, beta, False)[1]
                     if new_score > value:
                         value = new_score
                         column = col
@@ -61,14 +62,15 @@ class AlphaBeta_Agent:
                     if alpha >= beta:
                         break
             return column, value
+
         else:  # Minimizing player
             value = float('inf')
             column = random.choice(valid_locations)
             for col in valid_locations:
-                # Simulate the move
-                if game_env.place_token(col):
-                    new_score = self.minimax(game_env, depth - 1, alpha, beta, True)[1]
-                    game_env.undo_move(col)  # Undo the move
+                # Create a copy of the game environment and simulate the move
+                game_env_copy = copy.deepcopy(game_env)
+                if game_env_copy.place_token(col):
+                    new_score = self.minimax(game_env_copy, depth - 1, alpha, beta, True)[1]
                     if new_score < value:
                         value = new_score
                         column = col
@@ -76,6 +78,51 @@ class AlphaBeta_Agent:
                     if alpha >= beta:
                         break
             return column, value
+        
+    # def minimax(self, game_env, depth, alpha, beta, maximizingPlayer):
+    #     valid_locations = game_env.possible_actions()
+    #     is_terminal = self.is_terminal_node(game_env)
+    #     if depth == 0 or is_terminal:
+    #         if is_terminal:
+    #             if game_env.check_winner(game_env.turn):
+    #                 return (None, float('inf') if game_env.turn == 1 else float('-inf'))
+    #             elif game_env.check_winner(3 - game_env.turn):
+    #                 return (None, float('-inf') if game_env.turn == 1 else float('inf'))
+    #             else:  # Game is over (draw)
+    #                 return (None, 0)
+    #         else:  # Depth is zero
+    #             return (None, self.evaluate(game_env.board, game_env))
+
+    #     if maximizingPlayer:
+    #         value = float('-inf')
+    #         column = random.choice(valid_locations)
+    #         for col in valid_locations:
+    #             # Simulate the move
+    #             if game_env.place_token(col):
+    #                 new_score = self.minimax(game_env, depth - 1, alpha, beta, False)[1]
+    #                 game_env.undo_move(col)  # Undo the move
+    #                 if new_score > value:
+    #                     value = new_score
+    #                     column = col
+    #                 alpha = max(alpha, value)
+    #                 if alpha >= beta:
+    #                     break
+    #         return column, value
+    #     else:  # Minimizing player
+    #         value = float('inf')
+    #         column = random.choice(valid_locations)
+    #         for col in valid_locations:
+    #             # Simulate the move
+    #             if game_env.place_token(col):
+    #                 new_score = self.minimax(game_env, depth - 1, alpha, beta, True)[1]
+    #                 game_env.undo_move(col)  # Undo the move
+    #                 if new_score < value:
+    #                     value = new_score
+    #                     column = col
+    #                 beta = min(beta, value)
+    #                 if alpha >= beta:
+    #                     break
+    #         return column, value
         
     def is_terminal_node(self, game_env):
         """
@@ -137,6 +184,3 @@ class AlphaBeta_Agent:
 
         return score
 
-
-# Additional methods required for AlphaBetaAgent would go here,
-# such as `evaluate_window`, `get_next_open_row`, etc.

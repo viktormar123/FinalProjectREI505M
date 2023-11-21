@@ -1,9 +1,9 @@
 from Connect4_Game import Connect4_Game
 
-def Human_vs_Agent(connect4, agent):
+def Human_vs_Agent(connect4, agent, starting_policy):
     connect4.reset()
     game_over = False
-    turn = 1  # Human starts as Player 1
+    turn = starting_policy 
 
     while not game_over:
         connect4.print_board()
@@ -42,4 +42,4 @@ def Human_vs_Agent(connect4, agent):
 
         # No winner or draw, switch turns
         if not game_over:
-            turn *= -1
+            turn =3-turn
