@@ -8,7 +8,7 @@ sequence_length = 3
 
 game = Connect4_Game(rows, columns)
 max_count = 0
-for _ in range(2):
+for _ in range(20):
     # Randomize the board
     for r in range(rows):
         for c in range(columns):
