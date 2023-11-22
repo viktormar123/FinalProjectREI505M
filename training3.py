@@ -8,6 +8,7 @@ from Bots.QLearning_Agent import QLearning_Agent
 from Bots.Random_Bot import Random_Bot
 from Bots.Greedy_Bot import Greedy_Bot
 from Bots.AlphaBeta_Agent import AlphaBeta_Agent
+from Bots.MiniMax_Agent import MiniMax_Agent
 
 from ApproxAgent_Trainer import ApproxAgent_Trainer
 from QAgent_Trainer import QAgent_Trainer
@@ -17,20 +18,19 @@ from Human_vs_Agent import Human_vs_Agent
 
 # Define the parameters for game enviroment and training 
 rows, cols, connect = 6, 7, 4 # Smaller board size, less computation
-alpha = 0.0001 # 0.3 and 0.5 weren't converging 
-epsilon = 0.2 # 20% exploration ~ 2 random moves if played 40 moves
+alpha = 0.001 # 0.001 
 
 # Define the game environment and ApproxAgent
 game_env = Connect4_Game(rows, cols, connect) 
-ApproxAgent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
+ApproxAgent = LinearApprox_Agent(game_env, alpha, 0.99, 0.6, 0.999, 0.02) #0.99 0.6 0.999 0.02
 
 # Define the opponent, both for training and evaluation
-opponent = Random_Bot()
+opponent = MiniMax_Agent(rows, cols, 1, True)
 
 # Parameters for training and evaluation
 num_episodes = 5000 #  10000   20000, 1000, 500
 evaluation_interval = 1000 # 1000
-evaluation_games = 500 # 500
+evaluation_games = 1000 # 500
 
 win_rates = []
 loss_rates = []
@@ -86,3 +86,6 @@ plt.show()
 # new_agent.weights = loaded_weights
 
 Human_vs_Agent(game_env, ApproxAgent, 2)
+
+# Weigts of the agent after training
+print(f'Weights of the ApproxAgent after training:\n {ApproxAgent.weights}')

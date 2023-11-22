@@ -3,10 +3,11 @@ import random
 import copy
 
 class AlphaBeta_Agent:
-    def __init__(self, depth=1):
+    def __init__(self, game, depth=1):
         """
         Initialize the AlphaBetaAgent.
         """
+        self.game = game
         self.depth = depth
 
     def play(self, game_env, done=False):
@@ -32,23 +33,25 @@ class AlphaBeta_Agent:
         """
         column, score = self.minimax(game_env, self.depth, -np.inf, np.inf, True)
         return column
+    
 
     def minimax(self, game_env, depth, alpha, beta, maximizingPlayer):
         valid_locations = game_env.possible_actions()
         is_terminal = self.is_terminal_node(game_env)
+        
         if depth == 0 or is_terminal:
             if is_terminal:
                 if game_env.check_winner(game_env.turn):
-                    return (None, float('inf') if game_env.turn == 1 else float('-inf'))
+                    return (None, 9999999 if game_env.turn == 1 else -9999999)
                 elif game_env.check_winner(3 - game_env.turn):
-                    return (None, float('-inf') if game_env.turn == 1 else float('inf'))
+                    return (None, -9999999 if game_env.turn == 1 else 9999999)
                 else:  # Game is over (draw)
                     return (None, 0)
             else:  # Depth is zero
                 return (None, self.evaluate(game_env.board, game_env))
 
         if maximizingPlayer:
-            value = float('-inf')
+            value = -9999999
             column = random.choice(valid_locations)
             for col in valid_locations:
                 # Create a copy of the game environment and simulate the move
@@ -64,7 +67,7 @@ class AlphaBeta_Agent:
             return column, value
 
         else:  # Minimizing player
-            value = float('inf')
+            value = 9999999
             column = random.choice(valid_locations)
             for col in valid_locations:
                 # Create a copy of the game environment and simulate the move
@@ -132,39 +135,39 @@ class AlphaBeta_Agent:
                game_env.check_winner(3 - game_env.turn) or \
                game_env.check_draw()
 
-    def evaluate(self, board, game_env):
+    def evaluate(self, board, turn):
         score = 0
 
         # Center column preference (typically a good strategy in Connect 4)
-        center_array = board[:, game_env.columns // 2]
-        center_count = np.count_nonzero(center_array == game_env.turn)
+        center_array = board[:, self.game.columns // 2]
+        center_count = np.count_nonzero(center_array == turn)
         score += center_count * 3
 
         # Score Horizontal
-        for r in range(game_env.rows):
+        for r in range(self.game.rows):
             row_array = board[r, :]
-            for c in range(game_env.columns - 3):
+            for c in range(self.game.columns - 3):
                 window = row_array[c:c + 4]
-                score += self.evaluate_window(window, game_env.turn)
+                score += self.evaluate_window(window, turn)
 
         # Score Vertical
-        for c in range(game_env.columns):
+        for c in range(self.game.columns):
             col_array = board[:, c]
-            for r in range(game_env.rows - 3):
+            for r in range(self.game.rows - 3):
                 window = col_array[r:r + 4]
-                score += self.evaluate_window(window, game_env.turn)
+                score += self.evaluate_window(window, turn)
 
         # Score positive sloped diagonals
-        for r in range(game_env.rows - 3):
-            for c in range(game_env.columns - 3):
+        for r in range(self.game.rows - 3):
+            for c in range(self.game.columns - 3):
                 window = [board[r + i][c + i] for i in range(4)]
-                score += self.evaluate_window(window, game_env.turn)
+                score += self.evaluate_window(window, turn)
 
         # Score negative sloped diagonals
-        for r in range(game_env.rows - 3):
-            for c in range(3, game_env.columns):
+        for r in range(self.game.rows - 3):
+            for c in range(3, self.game.columns):
                 window = [board[r + i][c - i] for i in range(4)]
-                score += self.evaluate_window(window, game_env.turn)
+                score += self.evaluate_window(window, turn)
 
         return score
 

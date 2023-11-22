@@ -23,12 +23,12 @@ class LinearApprox_Agent:
         opponent_token = 2
 
         # Feature 1-2: Count open '3 in a row' for the player and opponent
-        features[0] = self.game.count_sequences(3, player_token) / 20
-        features[1] = self.game.count_sequences(3, opponent_token) / 20
+        features[0] = self.game.count_sequences(3, player_token) / 30
+        features[1] = self.game.count_sequences(3, opponent_token) / 30
 
         # Feature 3-4: Count '2 in a row' for the player and opponent
-        features[2] = self.game.count_sequences(2, player_token) / 50
-        features[3] = self.game.count_sequences(2, opponent_token) / 50
+        features[2] = self.game.count_sequences(2, player_token) / 60
+        features[3] = self.game.count_sequences(2, opponent_token) / 60
         
         # Feature 5: Number of free slots in the game
         features[4] = np.sum(state == 0) / (self.game.rows * self.game.columns)

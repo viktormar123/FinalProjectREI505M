@@ -40,9 +40,9 @@ class Greedy_Bot:
             env.undo_move(move)
 
         # Check to block opponent's winning move
-        opponent = -player
+        opponent = 3-player
         for move in possible_actions:
-            env.place_token(move)
+            env.place_token(move) # Þarf að laga þetta
             if env.check_winner(opponent):
                 env.undo_move(move)
                 return move

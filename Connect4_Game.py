@@ -147,7 +147,7 @@ class Connect4_Game:
             elif blocked_start or blocked_end:
                 return 1
             else:
-                return 2
+                return 3
 
         directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
         for r in range(rows):
