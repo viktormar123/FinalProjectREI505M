@@ -22,13 +22,19 @@ alpha = 0.001 # 0.001
 
 # Define the game environment and ApproxAgent
 game_env = Connect4_Game(rows, cols, connect) 
-ApproxAgent = LinearApprox_Agent(game_env, alpha, 0.99, 0.6, 0.999, 0.02) #0.99 0.6 0.999 0.02
+ApproxAgent = LinearApprox_Agent(game_env, alpha, 0.97, 0.6, 0.999, 0.02) #0.99 0.6 0.999 0.02
 
 # Define the opponent, both for training and evaluation
 opponent = MiniMax_Agent(rows, cols, 1, True)
+# opponent = Random_Bot()
+# Load the weights into Approx agent
+load = 'RandomP2'
+loaded_weights = np.load('ApproxWeights/' + load + '.npy')
+print(f'Loaded weights of {load} are {loaded_weights}\n')
+ApproxAgent.weights = loaded_weights
 
 # Parameters for training and evaluation
-num_episodes = 5000 #  10000   20000, 1000, 500
+num_episodes = 10000 #  10000   20000, 1000, 500
 evaluation_interval = 1000 # 1000
 evaluation_games = 1000 # 500
 
@@ -41,7 +47,7 @@ for episode in range(num_episodes):
             current_state = game_env.reset()
             done = False
 
-            while not done:
+            while not done:                
                 action = ApproxAgent.choose_action(game_env)
                 next_state, reward, done = game_env.step(action)
 
@@ -60,11 +66,11 @@ for episode in range(num_episodes):
                 draw_rates.append(results['draw'] / evaluation_games)
                 evaluation_episodes.append(episode)
                 
-                
+# Evaluate_Agent(ApproxAgent, Random_Bot(), game_env, games = evaluation_games)                                          
 plt.figure(figsize=(10, 6))
-plt.plot(evaluation_episodes, win_rates, label='Win Rate')
-plt.plot(evaluation_episodes, loss_rates, label='Loss Rate')
-plt.plot(evaluation_episodes, draw_rates, label='Draw Rate')
+plt.plot(evaluation_episodes, win_rates, label='Win Rate') # Winrate for player 1
+plt.plot(evaluation_episodes, loss_rates, label='Loss Rate') # Loss rate for player 1
+plt.plot(evaluation_episodes, draw_rates, label='Draw Rate') # Draw rate
 
 plt.xlim(-1, num_episodes)
 plt.ylim(0, 1)
@@ -75,17 +81,13 @@ plt.xlabel('Episodes')
 plt.ylabel('Rate')
 plt.title(f'ApproxAgent Performance vs {opponent.__class__.__name__} on {rows}x{cols} board in Connect-{game_env.connect}')
 plt.legend()
+plt.grid(axis = 'y')
 plt.show()  
 
 # Save the weights after training
-#np.save('c:\Users\vikki\H�\2. �r\Gervigreind\Lokaverkefni\Github\FinalProjectREI505M\ApproxAgent_Weights1.npy', ApproxAgent.weights)
+# np.save('ApproxWeights/MiniMaxP2d2.npy', ApproxAgent.weights)
 
-# Load the weights into a new agent
-# loaded_weights = np.load('approx_agent_weights.npy')
-# new_agent = LinearApprox_Agent(game_env, alpha, 1, 0.2, 1, 0.2)
-# new_agent.weights = loaded_weights
-
-Human_vs_Agent(game_env, ApproxAgent, 2)
+# Human_vs_Agent(game_env, ApproxAgent, 2)
 
 # Weigts of the agent after training
 print(f'Weights of the ApproxAgent after training:\n {ApproxAgent.weights}')

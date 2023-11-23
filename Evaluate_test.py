@@ -12,10 +12,10 @@ from Bots.AlphaBeta_Agent import AlphaBeta_Agent
 from Bots.MiniMax_Agent import MiniMax_Agent
 
 RandomAgent = Random_Bot()
-MiniMaxAgentP1 = MiniMax_Agent(rows, cols, 1, True)
-MiniMaxAgentP2 = MiniMax_Agent(rows, cols, 1, False)
+MiniMaxAgentP2 = MiniMax_Agent(rows, cols, 1, True)
+MiniMaxAgentP1 = MiniMax_Agent(rows, cols, 1, False)
 
-eval_games = 1000
+eval_games = 10000
 
 # print(f'Random vs Random on {rows}x{cols} board:')
 # Evaluate_Agent(RandomAgent, RandomAgent, game_env, eval_games) 

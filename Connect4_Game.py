@@ -10,7 +10,7 @@ class Connect4_Game:
 
     def reset(self):
         self.board = np.zeros((self.rows, self.columns), dtype=int)
-        self.turn = 1
+        self.turn = 1 
         return self.board
 
     def switch_turn(self):
